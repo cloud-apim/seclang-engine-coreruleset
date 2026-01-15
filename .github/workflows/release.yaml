@@ -29,6 +29,7 @@ jobs:
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
         run: |
+          sh ./setup.sh
           sbt ';compile;package;publishSigned;sonaRelease'
       - name: Generate SHA-256
         run: |
