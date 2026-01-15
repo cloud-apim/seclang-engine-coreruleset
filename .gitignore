@@ -1,0 +1,13 @@
+/.bsp/
+target/
+.bsp
+.bloop
+.DS_Store
+.idea
+.metals
+.vscode
+*.interp
+*.tokens
+target
+node_modules
+test-data
