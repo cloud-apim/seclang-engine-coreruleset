@@ -7,6 +7,30 @@
 
 SecLang Engine Coreruleset is a Scala library meant to provide the [OWASP Core Rule Set (CRS) v4](https://coreruleset.org/) in an easy and consumable way to be embedded in a Scala application.
 
+## Installation
+
+### SBT
+
+```scala
+libraryDependencies += "com.cloud-apim" %% "seclang-engine-coreruleset" % "1.2.0"
+```
+
+### Maven
+
+```xml
+<dependency>
+    <groupId>com.cloud-apim</groupId>
+    <artifactId>seclang-engine-coreruleset_2.12</artifactId>
+    <version>1.2.0</version>
+</dependency>
+```
+
+### Gradle
+
+```groovy
+implementation 'com.cloud-apim:seclang-engine-coreruleset_2.12:1.2.0'
+```
+
 ## Usage
 
 ### Scala
