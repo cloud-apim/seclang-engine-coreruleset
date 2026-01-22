@@ -12,7 +12,7 @@ SecLang Engine Coreruleset is a Scala library meant to provide the [OWASP Core R
 ### SBT
 
 ```scala
-libraryDependencies += "com.cloud-apim" %% "seclang-engine-coreruleset" % "1.3.0"
+libraryDependencies += "com.cloud-apim" %% "seclang-engine-coreruleset" % "1.4.0"
 ```
 
 ### Maven
@@ -21,14 +21,14 @@ libraryDependencies += "com.cloud-apim" %% "seclang-engine-coreruleset" % "1.3.0
 <dependency>
     <groupId>com.cloud-apim</groupId>
     <artifactId>seclang-engine-coreruleset_2.12</artifactId>
-    <version>1.3.0</version>
+    <version>1.4.0</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-implementation 'com.cloud-apim:seclang-engine-coreruleset_2.12:1.3.0'
+implementation 'com.cloud-apim:seclang-engine-coreruleset_2.12:1.4.0'
 ```
 
 ## Usage
