@@ -2,7 +2,7 @@
 
 set -e
 
-VERSION=${1:-v4.25.0}
+VERSION=${1:-v4.26.0}
 
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 TARGET_DIR="$SCRIPT_DIR/src/main/resources/crs"
