@@ -6,12 +6,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 SecLang Engine Coreruleset is a Scala library that provides the OWASP Core Rule Set (CRS) v4 for embedding in Scala applications. It depends on `seclang-engine` as its core dependency.
 
-The library is cross-built for Scala 2.12 and 2.13. Note that `seclang-engine` is only published for 2.12 for now, so the 2.13 axis will fail dependency resolution until the 2.13 artifact of the engine is released.
+The library is cross-built for Scala 2.12 and 2.13.
 
 ## Build Commands
 
 ```bash
-# Download CRS rules (required before packaging, defaults to v4.22.0)
+# Download CRS rules (required before packaging, defaults to v4.29.0)
 ./setup.sh
 
 # Compile the project (default Scala version, 2.12)
@@ -41,5 +41,5 @@ The library provides both Scala and Java APIs to make the OWASP CRS accessible f
 ## Dependencies
 
 - Scala 2.12.21 (default) and 2.13.18, declared as `crossScalaVersions` in `build.sbt`
-- `com.cloud-apim:seclang-engine:1.5.0` - Core SecLang engine
+- `com.cloud-apim:seclang-engine:2.0.0` - Core SecLang engine (published for both 2.12 and 2.13)
 - `munit` - Test framework
