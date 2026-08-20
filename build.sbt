@@ -1,6 +1,10 @@
 import Dependencies._
 
-ThisBuild / scalaVersion     := "2.12.21"
+lazy val scala212 = "2.12.21"
+lazy val scala213 = "2.13.18"
+
+ThisBuild / scalaVersion     := scala212
+ThisBuild / crossScalaVersions := Seq(scala212, scala213)
 ThisBuild / organization     := "com.cloud-apim"
 ThisBuild / organizationName := "Cloud-APIM"
 ThisBuild / description := "SecLang Engine Coreruleset is a Scala library meant to provide the OWASP Core Rule Set (CRS) in an easy and consumable way to be embedded in a Scala application."
@@ -39,8 +43,9 @@ usePgpKeyHex("235E536BA3E43419FD649B903C82DD5C11569EF6")
 lazy val root = (project in file("."))
   .settings(
     name := "seclang-engine-coreruleset",
+    crossScalaVersions := Seq(scala212, scala213),
     libraryDependencies ++= Seq(
-      "com.cloud-apim" %% "seclang-engine" % "1.5.0",
+      "com.cloud-apim" %% "seclang-engine" % "2.0.0",
       munit % Test
     ),
     Compile / doc / scalacOptions ++= Seq(
