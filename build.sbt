@@ -46,7 +46,7 @@ lazy val root = (project in file("."))
     name := "seclang-engine-coreruleset",
     crossScalaVersions := Seq(scala212, scala213, scala3),
     libraryDependencies ++= Seq(
-      "com.cloud-apim" %% "seclang-engine" % "2.1.0",
+      "com.cloud-apim" %% "seclang-engine" % "2.2.0",
       munit % Test
     ),
     Compile / doc / scalacOptions ++= Seq(
