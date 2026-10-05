@@ -2,7 +2,7 @@
 
 set -e
 
-VERSION=${1:-v4.29.0}
+VERSION=${1:-v4.30.0}
 CRS_VERSION=${VERSION#v}
 
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
