@@ -48,6 +48,32 @@ class CRSTest extends FunSuite {
     assertEquals(failing_res.disposition, Disposition.Block(400, Some("Potential Remote Command Execution: Log4j / Log4shell"), Some(944150)))
   }
 
+  test("crs inspects a +json body like a json one") {
+
+    import com.cloud.apim.seclang.model._
+    import com.cloud.apim.seclang.scaladsl._
+    import com.cloud.apim.seclang.scaladsl.coreruleset.EmbeddedCRSPreset
+
+    // rules 901360 and 901370 force the JSON body processor on these types: without it, an
+    // injection in a JSON:API body got past every rule that reads ARGS
+    val engine = SecLang.factory(Map("crs" -> EmbeddedCRSPreset.embedded)).engine(List("@import_preset crs", "SecRuleEngine On"))
+    Seq("application/json", "application/vnd.api+json", "application/problem+json", "application/x-amz-json-1.1").foreach { ct =>
+      val ctx = RequestContext(
+        method = "POST",
+        uri = "/api/comments",
+        headers = Headers(Map(
+          "Host" -> List("www.foo.bar"),
+          "Content-Type" -> List(ct),
+          "Content-Length" -> List("26"),
+          "User-Agent" -> List("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"),
+        )),
+        body = Some(ByteString("""{"comment":"1' or 1=1--"}"""))
+      )
+      val res = engine.evaluate(ctx, phases = List(1, 2))
+      assert(res.events.flatMap(_.ruleId).contains(942100), s"$ct: the injection in the body was not seen")
+    }
+  }
+
   test("crs loads exactly one setup file") {
 
     import com.cloud.apim.seclang.model._
