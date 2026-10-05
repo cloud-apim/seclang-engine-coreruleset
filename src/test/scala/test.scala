@@ -74,6 +74,28 @@ class CRSTest extends FunSuite {
     }
   }
 
+  test("crs rules reading a data file fire") {
+
+    import com.cloud.apim.seclang.model._
+    import com.cloud.apim.seclang.scaladsl._
+    import com.cloud.apim.seclang.scaladsl.coreruleset.EmbeddedCRSPreset
+
+    // the preset keys its data files by their path in the jar (/rules/scanners-user-agents.data), the
+    // rules name them bare: before seclang-engine 2.5.1 none of these rules could ever match
+    val engine = SecLang.factory(Map("crs" -> EmbeddedCRSPreset.embedded)).engine(List("@import_preset crs", "SecRuleEngine DetectionOnly"))
+    val ctx    = RequestContext(
+      method = "GET",
+      uri = "/",
+      headers = Headers(Map(
+        "Host" -> List("www.foo.bar"),
+        "Accept" -> List("*/*"),
+        "User-Agent" -> List("sqlmap/1.7.2#stable (https://sqlmap.org)"),
+      ))
+    )
+    val res = engine.evaluate(ctx, phases = List(1, 2))
+    assert(res.events.flatMap(_.ruleId).contains(913100), s"913100 did not fire: ${res.events.flatMap(_.ruleId)}")
+  }
+
   test("crs loads exactly one setup file") {
 
     import com.cloud.apim.seclang.model._
