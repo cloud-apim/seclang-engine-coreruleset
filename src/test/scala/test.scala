@@ -48,6 +48,20 @@ class CRSTest extends FunSuite {
     assertEquals(failing_res.disposition, Disposition.Block(400, Some("Potential Remote Command Execution: Log4j / Log4shell"), Some(944150)))
   }
 
+  test("crs loads exactly one setup file") {
+
+    import com.cloud.apim.seclang.model._
+    import com.cloud.apim.seclang.scaladsl.coreruleset.EmbeddedCRSPreset
+
+    // 900990 is the SecAction that sets tx.crs_setup_version: there is one per setup file loaded
+    val program = EmbeddedCRSPreset.embedded.program
+    val setups = (1 to 5).flatMap(program.itemsForPhase).count {
+      case item: ActionItem => item.id.contains(900990)
+      case _                => false
+    }
+    assertEquals(setups, 1)
+  }
+
   test("crs java") {
 
     import com.cloud.apim.seclang.model._

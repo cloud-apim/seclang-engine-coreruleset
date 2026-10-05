@@ -11,8 +11,11 @@ The library is cross-built for Scala 2.12 and 2.13.
 ## Build Commands
 
 ```bash
-# Download CRS rules (required before packaging, defaults to v4.29.0)
+# Download CRS rules (required before packaging, defaults to v4.29.0, or ./setup.sh v4.30.0)
 ./setup.sh
+
+# Check that the installed CRS is complete and comes from a single version (also runs before every package)
+sbt checkCrs
 
 # Compile the project (default Scala version, 2.12)
 sbt compile
@@ -33,8 +36,8 @@ sbt ';+compile;+package;+publishSigned;sonaRelease'
 
 - **Scala API**: `src/main/scala/com/cloud/apim/seclang/scaladsl/` - Scala DSL for CRS
 - **Java API**: `src/main/java/com/cloud/apim/seclang/javadsl/` - Java-friendly API (`EmbeddedCRSPreset`)
-- **Resources**: `src/main/resources/crs/` - CRS rule files (populated by `setup.sh`)
-- **setup.sh**: Downloads and extracts CRS rules from GitHub for a given version
+- **Resources**: `src/main/resources/crs/` - CRS rule files (populated by `setup.sh`). `rules/` and `crs-setup.conf` are gitignored and generated; only `recommanded.conf` is hand-maintained
+- **setup.sh**: Downloads a CRS version from GitHub, replaces `rules/` and installs its `crs-setup.conf.example` as the only setup file, `crs-setup.conf` (the preset loads every `.conf` of the directory, so a second setup file would be loaded too). Fails if the result mixes versions
 
 The library provides both Scala and Java APIs to make the OWASP CRS accessible from either language.
 

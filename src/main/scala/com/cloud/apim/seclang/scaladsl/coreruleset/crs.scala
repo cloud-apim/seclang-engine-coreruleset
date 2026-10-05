@@ -7,10 +7,11 @@ object EmbeddedCRSPreset {
     SecLangPreset.fromSource(
       name = "crs",
       rulesSource = ConfigurationSourceList(List(
-        ResourceScanConfigurationSource("crs", """.*\.conf""")
+        // anchored: the scan is a substring search, so `.*\.conf` alone also loads crs-setup.conf.example
+        ResourceScanConfigurationSource("crs", """.*\.conf$""")
       )),
       filesSource = FilesSourceList(List(
-        ResourceScanFilesSource("crs", """.*\.data""")
+        ResourceScanFilesSource("crs", """.*\.data$""")
       ))
     )
   }

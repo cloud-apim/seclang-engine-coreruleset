@@ -41,6 +41,10 @@ ThisBuild / publishTo := {
 
 usePgpKeyHex("235E536BA3E43419FD649B903C82DD5C11569EF6")
 
+// the jar embeds whatever setup.sh left in src/main/resources/crs, which is gitignored:
+// refuse to package a tree that is missing, or that mixes files from several CRS versions
+lazy val checkCrs = taskKey[Unit]("Checks that the embedded CRS is installed and comes from a single version")
+
 lazy val root = (project in file("."))
   .settings(
     name := "seclang-engine-coreruleset",
@@ -52,5 +56,20 @@ lazy val root = (project in file("."))
     Compile / doc / scalacOptions ++= Seq(
       "-doc-title", "SecLang Engine Coreruleset",
       "-doc-version", version.value
-    )
+    ),
+    checkCrs := {
+      val dir     = (Compile / resourceDirectory).value / "crs"
+      val setup   = dir / "crs-setup.conf"
+      val rules   = dir / "rules"
+      val example = dir / "crs-setup.conf.example"
+      def fail(msg: String): Nothing = throw new sbt.internal.util.MessageOnlyException(msg)
+      if (!setup.isFile || !rules.isDirectory) fail(s"no CRS installed in $dir, run ./setup.sh first")
+      if (example.exists) fail(s"$example would be shipped next to crs-setup.conf, run ./setup.sh again")
+      val ver      = """ver:'OWASP_CRS/(\d+\.\d+\.\d+)'""".r
+      val files    = setup +: (rules ** "*.conf").get
+      val versions = files.flatMap(f => ver.findAllMatchIn(IO.read(f)).map(_.group(1))).distinct.sorted
+      if (versions.size != 1) fail(s"the CRS in $dir mixes versions ${versions.mkString(", ")}, run ./setup.sh again")
+      streams.value.log.info(s"embedded CRS ${versions.head}, ${files.size} files")
+    },
+    Compile / packageBin := (Compile / packageBin).dependsOn(checkCrs).value
   )
