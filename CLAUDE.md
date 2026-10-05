@@ -43,6 +43,6 @@ The library provides both Scala and Java APIs to make the OWASP CRS accessible f
 
 ## Dependencies
 
-- Scala 2.12.21 (default) and 2.13.18, declared as `crossScalaVersions` in `build.sbt`
-- `com.cloud-apim:seclang-engine:2.0.0` - Core SecLang engine (published for both 2.12 and 2.13)
+- Scala 2.12.21 (default), 2.13.18 and 3.8.4, declared as `crossScalaVersions` in `build.sbt`
+- `com.cloud-apim:seclang-engine:2.4.0` - Core SecLang engine (published for 2.12, 2.13 and 3)
 - `munit` - Test framework
